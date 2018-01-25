@@ -24,6 +24,7 @@ import javafx.stage.Stage;
  */
 public class JavaFXConsole extends Application implements EventHandler<KeyEvent> {
 
+    static final String labelTextColor = "#bdc3c7";
     @Override
     public  void start(Stage primaryStage) {
 
@@ -38,12 +39,12 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
         Label labelInputSide = new Label(">");
         Pane pane = new Pane();
         
-        labelInputSide.setTextFill(Color.web("#bdc3c7"));
+        labelInputSide.setTextFill(Color.web(labelTextColor));
         labelInputSide.setFont(Font.font("Abel",FontWeight.BOLD, 12));
         labelInputSide.setLayoutX(11);
         labelInputSide.setLayoutY(300);
         
-        label.setTextFill(Color.web("#bdc3c7"));
+        label.setTextFill(Color.web(labelTextColor));
         label.setFont(Font.font("Abel",FontWeight.BOLD, 12));
         label.setLayoutX(20);
         label.setLayoutY(300);
@@ -56,7 +57,7 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
         
         StackPane root = new StackPane();
         root.getChildren().add(pane);
-        Scene scene = new Scene(root, 500, 350);
+        Scene scene = new Scene(root, 600, 350);
 
         ///
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -97,6 +98,7 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
         primaryStage.setTitle("Pan's Custom console");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
     }
 
     /**
@@ -156,7 +158,7 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
 
     public void addLine(VBox vBox, String string) {
         Label label = new Label(string);
-        label.setTextFill(Color.web("#bdc3c7"));
+        label.setTextFill(Color.web(labelTextColor));
         label.setFont(Font.font("Abel",FontWeight.BOLD, 12));
         vBox.getChildren().add(label);
         vBox.setLayoutY(vBox.getLayoutY()-17);
@@ -164,14 +166,14 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
     }
     public void addLine(VBox vBox,String string, VBox vBoxSide) {
          Label label = new Label(string);
-        label.setTextFill(Color.web("#bdc3c7"));
+        label.setTextFill(Color.web(labelTextColor));
         label.setFont(Font.font("Abel",FontWeight.BOLD, 12));
         vBox.getChildren().add(label);
         vBox.setLayoutY(vBox.getLayoutY()-17);
         
         // the <
         Label labelSide = new Label(">");
-        labelSide.setTextFill(Color.web("#bdc3c7"));
+        labelSide.setTextFill(Color.web(labelTextColor));
         labelSide.setFont(Font.font("Abel",FontWeight.BOLD, 12));
         vBoxSide.getChildren().add(labelSide);
         vBoxSide.setLayoutY(vBoxSide.getLayoutY()-17);
