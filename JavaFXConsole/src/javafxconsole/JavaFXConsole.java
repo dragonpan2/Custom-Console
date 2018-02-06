@@ -5,6 +5,7 @@
  */
 package javafxconsole;
 
+import java.time.ZonedDateTime;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 public class JavaFXConsole extends Application implements EventHandler<KeyEvent> {
 
     static final String labelTextColor = "#bdc3c7";
+    static final String PROMPT_VERSION = "U1.0"; 
     @Override
     public  void start(Stage primaryStage) {
 
@@ -72,7 +74,7 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
                 if (digiConv.equals("ENTER")) {
                     String command = label.getText();
                     addLine(vBox, command, vBoxSide);
-                    commandInterp(command); ///
+                    commandInterp(command, vBox, vBoxSide, primaryStage); ///
                     label.setText("");
                 } 
                 else if (digiConv.equals("BACK_SPACE")) {
@@ -85,9 +87,16 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
                 else if(digiConv.equals("SPACE")) {
                     label.setText(label.getText()+" ");
                 }
+                else if (digiConv.equals("PAGE_UP")) {
+                    vBox.setLayoutY(100);
+                    vBoxSide.setLayoutY(100);
+                }
+                else if (digiConv.equals("PAGE_DOWN")) {
+                    vBox.setLayoutY(-100);
+                    vBoxSide.setLayoutY(-100);
+                }
                 else if (digiConv.equals("notn")) {
                     label.setText(label.getText() + input);
-
                 } 
                 else {
                     label.setText(label.getText() + digitConverter(input));
@@ -113,7 +122,26 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void commandInterp(String command) {
+    public void commandInterp(String command, VBox vBox, VBox vBoxSide, Stage stage) {
+        if (command.equals("QUIT")) {
+            closeThisWindow(stage);
+        }
+        if (command.equals("EXIT")) {
+            closeThisWindow(stage);
+        }
+        if (command.equals("HELP")) {
+            
+        }
+        if (command.equals("DATE")) {
+            getDate(vBox, vBoxSide);
+        }
+        if (command.equals("VERSION")) {
+            
+        }
+        if (command.equals("CLEAR")) {
+            clearConsole(vBox, vBoxSide);
+        }
+        
         
     }
     
@@ -177,5 +205,48 @@ public class JavaFXConsole extends Application implements EventHandler<KeyEvent>
         labelSide.setFont(Font.font("Abel",FontWeight.BOLD, 12));
         vBoxSide.getChildren().add(labelSide);
         vBoxSide.setLayoutY(vBoxSide.getLayoutY()-17);
+    }
+    public void addLine(boolean improvedModeOn, VBox vBox,String string, VBox vBoxSide) {
+        if (string.length() > 40) {
+            Label label2 = new Label();
+            // continu split
+        }
+        
+        //as before
+         Label label = new Label(string);
+        label.setTextFill(Color.web(labelTextColor));
+        label.setFont(Font.font("Abel",FontWeight.BOLD, 12));
+        vBox.getChildren().add(label);
+        vBox.setLayoutY(vBox.getLayoutY()-17);
+        
+        // the <
+        Label labelSide = new Label(">");
+        labelSide.setTextFill(Color.web(labelTextColor));
+        labelSide.setFont(Font.font("Abel",FontWeight.BOLD, 12));
+        vBoxSide.getChildren().add(labelSide);
+        vBoxSide.setLayoutY(vBoxSide.getLayoutY()-17);
+    }
+    public void closeThisWindow(Stage stage) {
+        stage.close();
+    }
+    public void listCommand(VBox vBox, VBox vBoxSide) {
+        addLine(vBox, "Exit: close the prompt ", vBoxSide);
+        addLine(vBox, "QUIT: close the prompt ", vBoxSide);
+        addLine(vBox, "DATE: show the local zone date ", vBoxSide);
+        addLine(vBox, "VERSION: show prompt version", vBoxSide);
+    }
+    
+    public void getDate(VBox vBox, VBox vBoxSide) {
+        addLine(vBox, ZonedDateTime.now().toString(), vBoxSide);
+    }
+    public void getVersion(VBox vBox, VBox vBoxSide) {
+        addLine(vBox, PROMPT_VERSION, vBoxSide);
+    }
+    public void clearConsole(VBox vBox, VBox vBoxSide) {
+        vBox.getChildren().removeAll();
+        vBoxSide.getChildren().removeAll();
+        vBoxSide = new VBox();
+        vBox.setLayoutY(300);
+        vBoxSide.setLayoutY(300);
     }
 }
